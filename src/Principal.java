@@ -19,11 +19,10 @@ public class Principal {
         ConsultaMoneda consulta = new ConsultaMoneda();
 
         Moneda moneda = consulta.buscarMoneda(codigoMoneda);
-//        System.out.println(moneda.base_code());
-//        System.out.println(moneda);
-//        System.out.println(moneda.conversion_rates().get("ARS"));
-        System.out.println(cantidad + " " + codigoMoneda + " son " +  consulta.convertirValor(cantidad, moneda.conversion_rates().get("ARS")) + " ARS" );
-//        System.out.println(consulta.convertirValor(cantidad, moneda.conversion_rates().get("ARS")));
+
+        double conversion = consulta.convertirValor(cantidad, consulta.obtenerMoneda("ARS"));
+
+        System.out.println(cantidad + " " + codigoMoneda + " son " +  conversion + " ARS" );
 
     }
 }
