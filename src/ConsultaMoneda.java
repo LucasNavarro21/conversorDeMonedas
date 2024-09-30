@@ -4,12 +4,16 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Scanner;
 
 public class ConsultaMoneda {
 
     private Moneda moneda;
+    private ConsultaMoneda consulta;
+    Scanner teclado = new Scanner(System.in);
 
-        public Moneda buscarMoneda(String codigoMoneda){
+
+    public Moneda buscarMoneda(String codigoMoneda){
 
             URI direccion = URI.create("https://v6.exchangerate-api.com/v6/5d207f678235b4ebe271b56b/latest/"+codigoMoneda);
 
@@ -46,5 +50,18 @@ public class ConsultaMoneda {
             } else {
                 throw new RuntimeException("No se ha inicializado la moneda");
             }
+
         }
+
+    public void procesoConversion(String monedaConvertir, String monedaConvertida){
+        //No hace falta aclarar poner la clase ya que estamos en esta misma, en caso de que fuese otra clase la
+        // que se llama se declara como atributo el objeto y se lo instancia
+        buscarMoneda(monedaConvertir);
+        System.out.println("Ingrese la cantidad");
+        double cantidad = teclado.nextDouble();
+        double conversion = convertirValor(cantidad, obtenerMoneda(monedaConvertida));
+        System.out.println(cantidad + " USD" + " son " +  conversion + " ARS" );
+
+    }
+
 }
