@@ -4,6 +4,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ConsultaMoneda {
@@ -11,6 +13,7 @@ public class ConsultaMoneda {
     private Moneda moneda;
     private ConsultaMoneda consulta;
     Scanner teclado = new Scanner(System.in);
+    private List<String> historial = new ArrayList<>();
 
 
     public Moneda buscarMoneda(String codigoMoneda){
@@ -60,8 +63,16 @@ public class ConsultaMoneda {
         System.out.println("Ingrese la cantidad");
         double cantidad = teclado.nextDouble();
         double conversion = convertirValor(cantidad, obtenerMoneda(monedaConvertida));
-        System.out.println(cantidad + " USD" + " son " +  conversion + " ARS" );
+        String mensajeFinal = cantidad + " USD" + " son " +  conversion + " ARS";
+        System.out.println(mensajeFinal);
+        historial.add(mensajeFinal);
+    }
 
+    public void verHistorial(){
+        for(String historia : historial){
+            System.out.println(historia);
+        }
+//        System.out.println(historial);
     }
 
 }
