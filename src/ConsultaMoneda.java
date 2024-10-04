@@ -4,6 +4,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -11,9 +13,10 @@ import java.util.Scanner;
 public class ConsultaMoneda {
 
     private Moneda moneda;
+    private Conversion conversion;
     private ConsultaMoneda consulta;
     Scanner teclado = new Scanner(System.in);
-    private List<String> historial = new ArrayList<>();
+    private List<Conversion> historial = new ArrayList<>();
 
 
     public Moneda buscarMoneda(String codigoMoneda){
@@ -62,17 +65,39 @@ public class ConsultaMoneda {
         buscarMoneda(monedaConvertir);
         System.out.println("Ingrese la cantidad");
         double cantidad = teclado.nextDouble();
-        double conversion = convertirValor(cantidad, obtenerMoneda(monedaConvertida));
-        String mensajeFinal = cantidad + " USD" + " son " +  conversion + " ARS";
+        double conversionResultado = convertirValor(cantidad, obtenerMoneda(monedaConvertida));
+
+        String fechaHora = obtenerHoraDia();
+        this.conversion = new Conversion(monedaConvertir, monedaConvertida, cantidad, conversionResultado, fechaHora);
+        String mensajeFinal = "";
+        if(cantidad > 0){
+            mensajeFinal = this.conversion.cantidad() + " " + this.conversion.monedaConvertir() + " son " + this.conversion.resultado() + " " + this.conversion.monedaConvertida();
+        }else{
+            System.out.println("Ingrese una cantidad valida");
+        }
+
         System.out.println(mensajeFinal);
-        historial.add(mensajeFinal);
+
+        historial.add(this.conversion);
     }
 
     public void verHistorial(){
-        for(String historia : historial){
-            System.out.println(historia);
+
+
+        for(Conversion historia : historial){
+            String mensajeHistorial = "Se convirtieron " + historia.cantidad() + " " + historia.monedaConvertir() + " a " + historia.resultado() + " " + historia.monedaConvertida() + " a las " + historia.fechaHora();
+            System.out.println(mensajeHistorial);
         }
-//        System.out.println(historial);
+
+    }
+
+    public String obtenerHoraDia(){
+        LocalDateTime fechaHoraActual = LocalDateTime.now();
+
+        // Formatear la fecha y hora (opcional)
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String fechaHoraFormateada = fechaHoraActual.format(formato);
+        return fechaHoraFormateada;
     }
 
 }
