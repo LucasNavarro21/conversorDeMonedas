@@ -138,9 +138,11 @@ public class ConsultaMoneda {
 //            System.out.println("Ingrese una cantidad valida");
 
 
-        System.out.println(mensajeFinal);
 
-        historial.add(this.conversion);
+        if(conversion.isMayor0()){
+            System.out.println(mensajeFinal);
+            historial.add(this.conversion);
+        }
     }
 
     public void verHistorial(){

@@ -35,7 +35,7 @@ public class Principal {
                         consulta.ingresarMonedasManual();
                     }
                     case 8 -> consulta.verHistorial();
-                    case 9 -> System.out.println("Chau");
+                    case 9 -> System.out.println("Final, gracias por usar la aplicacion!");
                     default -> System.out.println("Opción inválida");
                 }
             } catch (InputMismatchException | NullPointerException e) {
